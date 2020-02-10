@@ -1,3 +1,4 @@
+// import { Task, TasksStatus } from "./tasks.model";
 import {
   Controller,
   Get,
@@ -8,25 +9,33 @@ import {
   Patch,
   Query,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
+  ParseIntPipe
 } from "@nestjs/common";
-import { TasksService } from "./tasks.service";
-import { Task, TasksStatus } from "./tasks.model";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { GetTasksFilterDto } from "./dto/get-tasks-filter.dto";
 import { TaskStatusValidationPipe } from "./pipes/task-status-validation.pipe";
+import { TasksService } from "./tasks.service";
+import { Task } from "./tasks.entity";
 
 @Controller("tasks")
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 
-  /*
-  @Get()
+  @Get("/:id")
+  getTaskById(@Param("id", ParseIntPipe) id: number): Promise<Task> {
+    return this.tasksService.getTaskById(id);
+  }
+}
+
+// ROUTING REFERENCE
+/*
+
+@Get()
   getAllTasks(): Task[] {
     return this.tasksService.getAllTasks();
   }
-  */
-
+  
   @Get()
   getTasksWithFilters(
     @Query(ValidationPipe) filterDto: GetTasksFilterDto
@@ -61,7 +70,6 @@ export class TasksController {
     this.tasksService.deleteTask(id);
   }
 
-  /*
   @Post()
   createTasks(
     @Body("title") title: string,
@@ -74,5 +82,5 @@ export class TasksController {
   createTaskz(@Body() body) {
     console.log(body);
   }
+
   */
-}
