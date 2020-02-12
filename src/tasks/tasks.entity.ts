@@ -14,4 +14,7 @@ export class Task extends BaseEntity {
 
   @Column()
   status: TasksStatus;
+
+  @Column()
+  createdAt: Date;
 }
