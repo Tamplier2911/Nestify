@@ -25,6 +25,9 @@ export class AuthCredentialsDto {
   @IsString()
   @MinLength(8)
   @MaxLength(30)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/)
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message:
+      "Password must contain at least one capital character and one numeric."
+  })
   password: string;
 }
