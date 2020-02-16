@@ -52,6 +52,7 @@ export class UserRepository extends Repository<User> {
       );
 
     // filter object fields
+    delete user.id;
     delete user.password;
     delete user.createdAt;
 
