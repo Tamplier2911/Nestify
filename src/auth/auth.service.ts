@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { User } from "./user.entity";
 import { UserRepository } from "./user.repository";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -9,6 +9,7 @@ import { JwtPayload } from "./jwt-payload.interface";
 
 @Injectable()
 export class AuthService {
+  private logger = new Logger("AuthService");
   constructor(
     @InjectRepository(UserRepository) private userRepository: UserRepository,
     private jwtService: JwtService
@@ -29,7 +30,9 @@ export class AuthService {
     const { username, email } = userObject;
     const payload: JwtPayload = { username, email };
     const accessToken = await this.jwtService.sign(payload);
-
+    this.logger.debug(
+      `Generated JWT Token with payload ${JSON.stringify(payload)}`
+    );
     return { accessToken };
 
     // return { data: userObject , accessToken };
