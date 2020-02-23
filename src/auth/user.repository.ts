@@ -14,7 +14,8 @@ export class UserRepository extends Repository<User> {
   async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     const { username, email, password } = authCredentialsDto;
 
-    const user = new User();
+    // const user = new User();
+    const user = this.create();
     user.username = username;
     user.email = email;
     user.password = await this.hashPassword(password, 12);
